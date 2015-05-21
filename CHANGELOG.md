@@ -3,9 +3,9 @@ deploy_certificate CHANGELOG
 
 This file is used to list changes made in each version of the deploy_certificate cookbook.
 
-0.1.0
+1.0.0
 -----
-- [your_name] - Initial release of deploy_certificate
+- [Nielsen Pierce] - Initial release of deploy_certificate
 
 - - -
 Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.

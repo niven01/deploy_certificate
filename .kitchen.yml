@@ -1,14 +1,21 @@
 ---
-driver:
-  name: vagrant
-
-provisioner:
-  name: chef_zero
+driver_plugin: vagrant
+driver_config:
+  require_chef_omnibus: true
 
 platforms:
-  - name: centos-6.6
+  - name: ubuntu-12.04
 
 suites:
   - name: default
-    run_list: recipe[deploy_certificate::default]
+    run_list:
+      - recipe[deploy_certificate_tests::deploy_cert]
+    attributes:
+  - name: ca
+    run_list:
+      - recipe[deploy_certificate_tests::deploy_ca]
+    attributes:
+  - name: chain
+    run_list:
+      - recipe[deploy_certificate_tests::deploy_cert_chain]
     attributes:

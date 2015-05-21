@@ -9,7 +9,7 @@ class Chef
       default_action :install
 
       attribute :name, kind_of: String, name_attribute: true
-      attribute :sensitive, kind_of: [TrueClass, FalseClass], default: true
+      attribute :is_sensitive, kind_of: [TrueClass, FalseClass], default: true
 
       attribute :cert, kind_of: String, default: nil
       attribute :cert_path, kind_of: String, default: '/etc/pki/tls/certs/'
@@ -22,6 +22,7 @@ class Chef
       attribute :key_mode, kind_of: String, default: '0600'
 
       attribute :chain, kind_of: [TrueClass, FalseClass], default: false
+      attribute :ca_name, kind_of: String, default: nil
       attribute :ca, kind_of: String, default: nil
     end
   end

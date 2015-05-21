@@ -6,6 +6,6 @@
 # Copyright 2012-2015, Rackspace
 
 deploy_certificate 'cert_test' do
-  cert 'cert 4324324343535435435435'
-  key 'key 834985430985309843905'
+  cert '-----BEGIN CERTIFICATE-----\nccertificate\n-----END CERTIFICATE-----'
+  key '-----BEGIN KEY-----\nkey\n-----END KEY-----'
 end
