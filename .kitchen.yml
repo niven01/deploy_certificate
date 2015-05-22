@@ -15,7 +15,3 @@ suites:
     run_list:
       - recipe[deploy_certificate_tests::deploy_ca]
     attributes:
-  - name: chain
-    run_list:
-      - recipe[deploy_certificate_tests::deploy_cert_chain]
-    attributes:

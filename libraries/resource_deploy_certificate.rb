@@ -21,7 +21,6 @@ class Chef
       attribute :key_owner, kind_of: String, default: 'root'
       attribute :key_mode, kind_of: String, default: '0600'
 
-      attribute :chain, kind_of: [TrueClass, FalseClass], default: false
       attribute :ca_name, kind_of: String, default: nil
       attribute :ca, kind_of: String, default: nil
     end
