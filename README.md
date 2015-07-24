@@ -16,7 +16,7 @@ This cookbook does not create certificate requests or self signed certificates. 
 
 Supports
 ------------
-* Ubuntu 12.04
+* Centos 6.6
 * More to come.....
 
 
@@ -48,11 +48,13 @@ Add cookbook as a dependncy in metadata.rb
 * `'key_path'` Path of cert key, default: '/etc/pki/tls/certs/'
 * `'key_owner'` Key owner, default: 'root'
 * `'key_mode'` Key permissions, default: '0600'
-* `'chain'` Create certificate chain, default: false
+* `'combined'` Combines server cert, CA cert and private key into a single file, default: false
 * `'ca'` CA source, default: 'nil'
 
 
 #### Example  
+
+The source is up to you. It can be attribute or direct from data bag, it is up to you how you get the source.
 
 ##### Install cert only  
 
@@ -74,14 +76,14 @@ deploy_certificate 'cert_name' do
 end
 ```
 
-##### Install cert with chain  
+##### Install cert with combined  
 
 ```ruby
 deploy_certificate 'cert_name' do
   cert 'cert_source'
   key 'key_source'
-  chain true
-  ca 'ca_cert location'
+  combined true
+  ca 'ca_source'
 end
 ```
 

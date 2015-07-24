@@ -13,7 +13,10 @@ namespace :style do
   FoodCritic::Rake::LintTask.new(:chef) do |t|
     t.options = { search_gems: true,
                   tags: %w(~rackspace-support),
-                  fail_tags: %w(correctness,rackspace)
+                  fail_tags: %w(correctness,rackspace),
+                  tags: [
+                    '~RACK004'
+                  ]
                 }
   end
 end

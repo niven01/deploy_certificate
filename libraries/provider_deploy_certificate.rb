@@ -14,46 +14,58 @@ class Chef
         # check key and cert exist
         fail 'Key is missing, can\'t deploy certificate' unless new_resource.key && new_resource.cert
         # check CA name exists if ca provided 
-        fail 'You have proved a CA but not a CA name' if new_resource.ca && !new_resource.ca_name
+        fail 'You have proved a CA but not a CA name' if new_resource.ca && !new_resource.ca_name && !new_resource.combined
          # check CA provied exists if CA name exists
         fail 'You have proved a CA name but not a CA' if new_resource.ca_name&& !new_resource.ca
 
-        create_subdir(new_resource.cert_path) unless ::File.exist?(new_resource.cert_path)
-        create_subdir(new_resource.key_path) unless ::File.exist?(new_resource.key_path)
+        create_subdir(cert_path) unless ::File.exist?(cert_path)
+        create_subdir(key_path) unless ::File.exist?(key_path)
 
-        file ::File.join(new_resource.cert_path, new_resource.name + '.crt') do
+        file ::File.join(cert_path, new_resource.name + '.crt') do
           owner new_resource.cert_owner
           mode new_resource.cert_mode
           content new_resource.cert
           sensitive new_resource.is_sensitive
+          not_if {new_resource.combined}
         end
 
-        if new_resource.ca_name && new_resource.ca
-          file ::File.join(new_resource.cert_path, new_resource.ca_name + '_bundle.crt') do
+        if new_resource.ca_name && new_resource.ca 
+          file ::File.join(cert_path, new_resource.ca_name + '_bundle.crt') do
             owner new_resource.cert_owner
             mode new_resource.cert_mode
             content new_resource.ca
             sensitive new_resource.is_sensitive
+            not_if {new_resource.combined}
           end
         end
 
-        file ::File.join(new_resource.key_path, new_resource.name + '.key') do
+        if new_resource.combined
+          file ::File.join(cert_path, new_resource.name + '_combined.crt') do
+            owner new_resource.cert_owner
+            mode new_resource.cert_mode
+            content "#{new_resource.cert}\n#{new_resource.ca}\n#{new_resource.key}}"
+            sensitive new_resource.is_sensitive
+          end
+        end
+
+        file ::File.join(key_path, new_resource.name + '.key') do
           owner new_resource.key_owner
           mode new_resource.key_mode
           content new_resource.key
           sensitive new_resource.is_sensitive
+          not_if {new_resource.combined}
         end
       end
 
       action :remove do
-        file ::File.join(new_resource.cert_path, new_resource.name + '.crt') do
+        file ::File.join(cert_path, new_resource.name + '.crt') do
           action :delete
-          only_if { ::File.exist?(::File.join(new_resource.cert_path, new_resource.name + '.crt')) }
+          only_if { ::File.exist?(::File.join(cert_path, new_resource.name + '.crt')) }
         end
 
-        file ::File.join(new_resource.key_path, new_resource.name + '.key') do
+        file ::File.join(key_path, new_resource.name + '.key') do
           action :delete
-          only_if { ::File.exist?(::File.join(new_resource.key_path, new_resource.name + '.key')) }
+          only_if { ::File.exist?(::File.join(key_path, new_resource.name + '.key')) }
         end
       end
     end
