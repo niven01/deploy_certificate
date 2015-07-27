@@ -22,7 +22,7 @@ Supports
 
 Usage
 -----
-Add cookbook as a dependncy in metadata.rb  
+Add cookbook as a dependency in metadata.rb  
 
 `depends 'deploy_certificate'`
 
