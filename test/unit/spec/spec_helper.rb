@@ -17,4 +17,7 @@ require 'chef/application'
 def stub_resources
 end
 
+def stub_node_resources(node)
+end
+
 at_exit { ChefSpec::Coverage.report! }
