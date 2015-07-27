@@ -17,7 +17,7 @@ This cookbook does not create certificate requests or self signed certificates. 
 Supports
 ------------
 * Centos 6.6
-* More to come.....
+* Ubuntu 14.04
 
 
 Usage
@@ -54,7 +54,9 @@ Add cookbook as a dependency in metadata.rb
 
 #### Example  
 
-The source is up to you. It can be attribute or direct from data bag, it is up to you how you get the source.
+The source is up to you. It can be attribute or direct from data bag, it is up to you how you get the source.  
+
+For example of using encrypted data bag review `test/fixtures/cookbooks/deploy_certificate_tests/recipes/deploy_cert.rb`  
 
 ##### Install cert only  
 
@@ -87,6 +89,12 @@ deploy_certificate 'cert_name' do
 end
 ```
 
+Data Bag
+--------
+
+The data_bag can be structured anyway you want it to be but you will need to convert the certificates and keys into a single line. Replace `end` with `\n` like:
+
+`cat mykey.pem | sed s/$/\\\\n/ | tr -d '\n'`
 
 Contributing
 ------------
