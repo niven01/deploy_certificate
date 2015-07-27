@@ -1,5 +1,5 @@
 if defined?(ChefSpec)
-  
+
   def deploy_certificate(resource_name)
     ChefSpec::Matchers::ResourceMatcher.new(:deploy_certificate, :install, resource_name)
   end

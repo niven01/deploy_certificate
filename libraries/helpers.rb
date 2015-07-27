@@ -1,13 +1,10 @@
 module Helpers
   module Subdir
-    def create_subdir(path)
-      directory path do
-        owner 'root'
-        group 'root'
-        mode 0755
-        recursive true
-      end
+    def ca_name
+      return new_resource.ca_name if new_resource.ca_name
+      "ca_#{new_resource.name}"
     end
+
     def cert_path
       case node['platform_family']
       when 'rhel'
@@ -16,6 +13,7 @@ module Helpers
         return '/etc/ssl/certs'
       end
     end
+
     def key_path
       case node['platform_family']
       when 'rhel'

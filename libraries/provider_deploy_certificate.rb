@@ -13,29 +13,32 @@ class Chef
       action :install do
         # check key and cert exist
         fail 'Key is missing, can\'t deploy certificate' unless new_resource.key && new_resource.cert
-        # check CA name exists if ca provided 
-        fail 'You have proved a CA but not a CA name' if new_resource.ca && !new_resource.ca_name && !new_resource.combined
-         # check CA provied exists if CA name exists
-        fail 'You have proved a CA name but not a CA' if new_resource.ca_name&& !new_resource.ca
 
-        create_subdir(cert_path) unless ::File.exist?(cert_path)
-        create_subdir(key_path) unless ::File.exist?(key_path)
+        %w(cert_path key_path).each do |path|
+          directory path do
+            owner 'root'
+            group 'root'
+            mode 0755
+            recursive true
+            not_if { ::File.exist?(path) }
+          end
+        end
 
         file ::File.join(cert_path, new_resource.name + '.crt') do
           owner new_resource.cert_owner
           mode new_resource.cert_mode
           content new_resource.cert
           sensitive new_resource.is_sensitive
-          not_if {new_resource.combined}
+          not_if { new_resource.combined }
         end
 
-        if new_resource.ca_name && new_resource.ca 
-          file ::File.join(cert_path, new_resource.ca_name + '_bundle.crt') do
+        if new_resource.ca && ca_name 
+          file ::File.join(cert_path, ca_name + '_bundle.crt') do
             owner new_resource.cert_owner
             mode new_resource.cert_mode
             content new_resource.ca
             sensitive new_resource.is_sensitive
-            not_if {new_resource.combined}
+            not_if { new_resource.combined }
           end
         end
 
@@ -53,19 +56,35 @@ class Chef
           mode new_resource.key_mode
           content new_resource.key
           sensitive new_resource.is_sensitive
-          not_if {new_resource.combined}
+          not_if { new_resource.combined }
         end
       end
 
       action :remove do
-        file ::File.join(cert_path, new_resource.name + '.crt') do
-          action :delete
-          only_if { ::File.exist?(::File.join(cert_path, new_resource.name + '.crt')) }
+        if new_resource.name
+          file ::File.join(cert_path, new_resource.name + '.crt') do
+            action :delete
+            only_if { ::File.exist?(::File.join(cert_path, new_resource.name + '.crt')) }
+          end
+
+          file ::File.join(key_path, new_resource.name + '.key') do
+            action :delete
+            only_if { ::File.exist?(::File.join(key_path, new_resource.name + '.key')) }
+          end
         end
 
-        file ::File.join(key_path, new_resource.name + '.key') do
-          action :delete
-          only_if { ::File.exist?(::File.join(key_path, new_resource.name + '.key')) }
+        if ca_name
+          file ::File.join(cert_path, ca_name + '_bundle.crt') do
+            action :delete
+            only_if { ::File.exist?(::File.join(cert_path, ca_name + '_bundle.crt')) }
+          end
+        end
+
+        if new_resource.combined
+          file ::File.join(cert_path, new_resource.name + '_combined.crt') do
+            action :delete
+            only_if { ::File.exist?(::File.join(cert_path, new_resource.name + '_combined.crt')) }
+          end
         end
       end
     end
