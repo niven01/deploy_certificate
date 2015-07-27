@@ -9,4 +9,3 @@ end
 describe file('/etc/pki/tls/private/cert_test.key') do
   it { should contain('BEGIN KEY') }
 end
-

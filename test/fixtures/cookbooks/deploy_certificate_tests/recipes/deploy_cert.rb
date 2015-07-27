@@ -5,7 +5,15 @@
 #
 # Copyright 2012-2015, Rackspace
 
+# Example show using encrypted data bag
+
+cert = Chef::EncryptedDataBagItem.load('certs', 'cert_test')
+
 deploy_certificate 'cert_test' do
-  cert '-----BEGIN CERTIFICATE-----\nccertificate\n-----END CERTIFICATE-----'
-  key '-----BEGIN KEY-----\nkey\n-----END KEY-----'
+  cert cert['cert']
+  key cert['key']
 end
+
+# deploy_certificate 'cert_test' do
+#   action :remove
+# end

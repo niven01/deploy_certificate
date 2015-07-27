@@ -1,0 +1,15 @@
+{
+  "id": "cert_test",
+  "cert": {
+    "encrypted_data": "S205YESf6N8kVbxWPS9hL6MNGuhWyYqMFGEwNH69L2BIxDPZugtDB+Y/8yt/\nmBsOZ6vyr2Fp2X7Uj5iEHfCeyjcyBepQ2Cm19YXh9C9En8iz3h7UjPs6IOIS\n6kg9Q8pb\n",
+    "iv": "1ylXJ4Nk6Wrfo9IJQy/6FQ==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "key": {
+    "encrypted_data": "ATu9JOclqfI+OLiRH1x8as88069cxwj3E/fDgcpDTtWjjK72GfUa8gL7nZkV\nZcB3ycQOzOICyaoNh/mdCRl2VA==\n",
+    "iv": "Y2iqDX98lQqnHsS75IXWjw==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  }
+}

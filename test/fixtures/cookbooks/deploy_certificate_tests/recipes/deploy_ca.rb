@@ -11,3 +11,9 @@ deploy_certificate 'cert_test' do
   ca_name 'ca_test'
   ca '-----BEGIN CERTIFICATE-----\nca_certificate\n-----END CERTIFICATE-----'
 end
+
+
+# deploy_certificate 'cert_test' do
+#   ca_name 'ca_test'
+#   action :remove
+# end
